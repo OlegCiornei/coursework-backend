@@ -1,9 +1,13 @@
 package com.usm.i2002.dreamteam.coursework.services;
 
-import java.util.List;
-
 import com.usm.i2002.dreamteam.coursework.entities.Product;
 
+import org.springframework.data.domain.Page;
+
 public interface ProductService {
-    List<Product> getAll();
+    Page<Product> getAll(Integer pageNumber, Integer pageSize, String sortBy);
+
+    Product getByName(String name);
+
+    Page<Product> searchByName(String name, Integer pageNumber, Integer pageSize);
 }

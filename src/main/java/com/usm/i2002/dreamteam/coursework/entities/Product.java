@@ -28,6 +28,9 @@ public class Product {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "image")
+    private String image;
+
     @Column(name = "price")
     private Double price;
 

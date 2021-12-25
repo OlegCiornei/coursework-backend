@@ -1,14 +1,15 @@
 package com.usm.i2002.dreamteam.coursework.controllers;
 
-import java.util.List;
-
 import com.usm.i2002.dreamteam.coursework.entities.Product;
 import com.usm.i2002.dreamteam.coursework.services.ProductService;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 
@@ -19,8 +20,24 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping
-    public ResponseEntity<List<Product>> getAll(){
-        return ResponseEntity.status(HttpStatus.CREATED).body(productService.getAll());
+    public ResponseEntity<Page<Product>> getAll(
+            @RequestParam(defaultValue = "0") Integer pageNumber,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "name") String sortBy) {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.getAll(pageNumber, pageSize, sortBy));
+    }
+
+    @GetMapping("/{name}")
+    public ResponseEntity<Product> getByName(@PathVariable String name) {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.getByName(name));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<Product>> searchByName(@RequestParam String name,
+                                                      @RequestParam(defaultValue = "0") Integer pageNumber,
+                                                      @RequestParam(defaultValue = "10") Integer pageSize) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(productService.searchByName(name, pageNumber, pageSize));
     }
 
 }
