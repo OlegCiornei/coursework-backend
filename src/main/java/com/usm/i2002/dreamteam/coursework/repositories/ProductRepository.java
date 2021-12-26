@@ -1,6 +1,5 @@
 package com.usm.i2002.dreamteam.coursework.repositories;
 
-import java.util.List;
 import java.util.Optional;
 
 import com.usm.i2002.dreamteam.coursework.entities.Product;

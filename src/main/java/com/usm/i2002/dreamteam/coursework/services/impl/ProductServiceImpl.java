@@ -1,9 +1,9 @@
 package com.usm.i2002.dreamteam.coursework.services.impl;
 
-import com.usm.i2002.dreamteam.coursework.exceptions.NoSuchProductException;
-import com.usm.i2002.dreamteam.coursework.services.ProductService;
 import com.usm.i2002.dreamteam.coursework.entities.Product;
+import com.usm.i2002.dreamteam.coursework.exceptions.NoSuchProductException;
 import com.usm.i2002.dreamteam.coursework.repositories.ProductRepository;
+import com.usm.i2002.dreamteam.coursework.services.ProductService;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

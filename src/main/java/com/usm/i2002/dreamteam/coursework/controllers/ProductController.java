@@ -1,6 +1,7 @@
 package com.usm.i2002.dreamteam.coursework.controllers;
 
-import com.usm.i2002.dreamteam.coursework.entities.Product;
+import com.usm.i2002.dreamteam.coursework.entities.DTOs.products.ProductDto;
+import com.usm.i2002.dreamteam.coursework.entities.DTOs.products.ProductExpanded;
 import com.usm.i2002.dreamteam.coursework.services.ProductService;
 
 import org.springframework.data.domain.Page;
@@ -20,24 +21,28 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping
-    public ResponseEntity<Page<Product>> getAll(
+    public ResponseEntity<Page<ProductDto>> getAll(
             @RequestParam(defaultValue = "0") Integer pageNumber,
             @RequestParam(defaultValue = "10") Integer pageSize,
             @RequestParam(defaultValue = "name") String sortBy) {
-        return ResponseEntity.status(HttpStatus.OK).body(productService.getAll(pageNumber, pageSize, sortBy));
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(productService.getAll(pageNumber, pageSize, sortBy)
+                        .map(ProductDto::toProductDto));
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<Product> getByName(@PathVariable String name) {
-        return ResponseEntity.status(HttpStatus.OK).body(productService.getByName(name));
+    public ResponseEntity<ProductDto> getByName(@PathVariable String name) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ProductExpanded.toProductExpanded(productService.getByName(name)));
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Page<Product>> searchByName(@RequestParam String name,
-                                                      @RequestParam(defaultValue = "0") Integer pageNumber,
-                                                      @RequestParam(defaultValue = "10") Integer pageSize) {
+    public ResponseEntity<Page<ProductDto>> searchByName(
+            @RequestParam String name,
+            @RequestParam(defaultValue = "0") Integer pageNumber,
+            @RequestParam(defaultValue = "10") Integer pageSize) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(productService.searchByName(name, pageNumber, pageSize));
+                .body(productService.searchByName(name, pageNumber, pageSize)
+                        .map(ProductDto::toProductDto));
     }
-
 }

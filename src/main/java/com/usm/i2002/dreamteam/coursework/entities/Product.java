@@ -6,6 +6,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.hibernate.Hibernate;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,7 @@ public class Product {
     private String name;
 
     @Column(name = "description")
+    @JsonIgnore
     private String description;
 
     @Column(name = "image")
