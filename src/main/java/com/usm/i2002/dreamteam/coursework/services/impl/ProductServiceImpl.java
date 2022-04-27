@@ -39,4 +39,9 @@ public class ProductServiceImpl implements ProductService {
 
         return foundProducts;
     }
+
+    @Override
+    public Product addProduct(Product product) {
+        return productRepository.save(product);
+    }
 }

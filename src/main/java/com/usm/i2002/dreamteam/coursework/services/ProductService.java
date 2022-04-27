@@ -10,4 +10,6 @@ public interface ProductService {
     Product getByName(String name);
 
     Page<Product> searchByName(String name, Integer pageNumber, Integer pageSize);
+
+    Product addProduct(Product product);
 }
