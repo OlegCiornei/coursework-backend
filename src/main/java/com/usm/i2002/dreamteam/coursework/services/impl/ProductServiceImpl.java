@@ -15,18 +15,13 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
+
     private final ProductRepository productRepository;
 
     @Override
     public Page<Product> getAll(Integer pageNumber, Integer pageSize, String sortBy) {
         Pageable page = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
         return productRepository.findAll(page);
-    }
-
-    @Override
-    public Product getByName(String name) {
-        return productRepository.findByNameIgnoreCase(name)
-                .orElseThrow(() -> new NoSuchProductException("No such product"));
     }
 
     @Override

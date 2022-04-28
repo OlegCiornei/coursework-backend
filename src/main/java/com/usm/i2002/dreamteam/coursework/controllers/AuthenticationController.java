@@ -4,6 +4,7 @@ import com.usm.i2002.dreamteam.coursework.entities.DTOs.products.AuthenticationR
 import com.usm.i2002.dreamteam.coursework.entities.User;
 import com.usm.i2002.dreamteam.coursework.repositories.UserRepository;
 import com.usm.i2002.dreamteam.coursework.security.JwtTokenProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,17 +24,12 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
+@RequiredArgsConstructor
 public class AuthenticationController {
 
-    private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
-
-    public AuthenticationController(AuthenticationManager authenticationManager, UserRepository userRepository, JwtTokenProvider jwtTokenProvider) {
-        this.authenticationManager = authenticationManager;
-        this.userRepository = userRepository;
-        this.jwtTokenProvider = jwtTokenProvider;
-    }
+    private final AuthenticationManager authenticationManager;
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequestDTO request) {

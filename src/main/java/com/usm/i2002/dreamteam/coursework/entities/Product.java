@@ -27,6 +27,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Table(name = "T_PRODUCTS")
 public class Product {
+
     @Id
     @Column(columnDefinition = "serial")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

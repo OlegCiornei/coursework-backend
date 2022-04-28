@@ -1,6 +1,7 @@
 package com.usm.i2002.dreamteam.coursework.entities;
 
 public enum Permission {
+
     USERS_READ("users:read"),
     USERS_WRITE("users:write");
 
