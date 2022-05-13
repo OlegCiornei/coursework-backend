@@ -1,7 +1,7 @@
 package com.usm.i2002.dreamteam.coursework.exceptions;
 
 public class NoSuchProductException extends RuntimeException {
-    public NoSuchProductException(String message) {
+    public NoSuchProductException(final String message) {
         super(message);
     }
 }

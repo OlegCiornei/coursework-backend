@@ -1,22 +1,11 @@
 package com.usm.i2002.dreamteam.coursework.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.util.Objects;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import lombok.*;
 import org.hibernate.Hibernate;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+
+import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Getter

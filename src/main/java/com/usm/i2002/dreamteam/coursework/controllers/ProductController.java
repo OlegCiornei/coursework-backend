@@ -19,18 +19,18 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<Page<ProductDto>> getAll(
-            @RequestParam(defaultValue = "0") Integer pageNumber,
-            @RequestParam(defaultValue = "10") Integer pageSize,
-            @RequestParam(defaultValue = "name") String sortBy) {
+            final @RequestParam(defaultValue = "0") Integer pageNumber,
+            final @RequestParam(defaultValue = "10") Integer pageSize,
+            final @RequestParam(defaultValue = "name") String sortBy) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(productService.getAll(pageNumber, pageSize, sortBy)
                         .map(ProductDto::of));
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Page<ProductDto>> searchByName(@RequestParam String name,
-                                                         @RequestParam(defaultValue = "0") Integer pageNumber,
-                                                         @RequestParam(defaultValue = "10") Integer pageSize) {
+    public ResponseEntity<Page<ProductDto>> searchByName(final @RequestParam String name,
+                                                         final @RequestParam(defaultValue = "0") Integer pageNumber,
+                                                         final @RequestParam(defaultValue = "10") Integer pageSize) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(productService.searchByName(name, pageNumber, pageSize)
                         .map(ProductExpanded::of));
@@ -38,7 +38,7 @@ public class ProductController {
 
     @PostMapping("/create")
     @PreAuthorize("hasAuthority('users:write')")
-    public ResponseEntity<ProductDto> addProduct(@RequestBody ProductExpanded product) {
+    public ResponseEntity<ProductDto> addProduct(final @RequestBody ProductExpanded product) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ProductExpanded.of(productService.addProduct(ProductExpanded.to(product))));
     }

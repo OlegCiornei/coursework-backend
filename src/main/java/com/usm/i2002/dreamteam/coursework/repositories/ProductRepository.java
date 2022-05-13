@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    Page<Product> findByNameContainsIgnoreCase(@NonNull String name, Pageable pageable);
+    Page<Product> findByNameContainsIgnoreCase(final @NonNull String name, final Pageable pageable);
 }

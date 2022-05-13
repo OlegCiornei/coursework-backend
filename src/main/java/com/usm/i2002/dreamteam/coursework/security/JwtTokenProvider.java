@@ -27,7 +27,7 @@ public class JwtTokenProvider {
     @Value("${jwt.expiration}")
     private long validityInMilliseconds;
 
-    public JwtTokenProvider(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService) {
+    public JwtTokenProvider(final @Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
@@ -36,7 +36,7 @@ public class JwtTokenProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createToken(String username, String role) {
+    public String createToken(final String username, final String role) {
         Claims claims = Jwts.claims().setSubject(username);
         claims.put("role", role);
         Date now = new Date();
@@ -45,7 +45,7 @@ public class JwtTokenProvider {
         return Jwts.builder().setClaims(claims).setIssuedAt(now).setExpiration(validity).signWith(SignatureAlgorithm.HS256, secretKey).compact();
     }
 
-    public boolean validateToken(String token) {
+    public boolean validateToken(final String token) {
         try {
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             return !claimsJws.getBody().getExpiration().before(new Date());
@@ -54,16 +54,16 @@ public class JwtTokenProvider {
         }
     }
 
-    public Authentication getAuthentication(String token) {
+    public Authentication getAuthentication(final String token) {
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(getUsername(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
-    public String getUsername(String token) {
+    public String getUsername(final String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
-    public String resolveToken(HttpServletRequest request) {
+    public String resolveToken(final HttpServletRequest request) {
         return request.getHeader(authorizationHeader);
     }
 }
