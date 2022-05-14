@@ -25,8 +25,8 @@ public class Product {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "description")
     @JsonIgnore
+    @Column(name = "description")
     private String description;
 
     @Column(name = "image")
@@ -34,6 +34,10 @@ public class Product {
 
     @Column(name = "price")
     private Double price;
+
+    @Column(name = "category")
+    @Enumerated(value = EnumType.STRING)
+    private Category category;
 
     @Override
     public boolean equals(Object o) {

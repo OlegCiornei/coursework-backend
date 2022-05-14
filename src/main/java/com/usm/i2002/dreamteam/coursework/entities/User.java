@@ -26,12 +26,12 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Enumerated(value = EnumType.STRING)
     @Column(name = "role")
+    @Enumerated(value = EnumType.STRING)
     private Role role;
 
-    @Enumerated(value = EnumType.STRING)
     @Column(name = "status")
+    @Enumerated(value = EnumType.STRING)
     private Status status;
 
     @Override

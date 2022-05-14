@@ -5,8 +5,8 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.2</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <version>2.5.5</version>
+        <relativePath/>
     </parent>
     <groupId>com.usm.i2002.dreamteam</groupId>
     <artifactId>coursework</artifactId>
@@ -58,11 +58,21 @@
             <artifactId>jjwt</artifactId>
             <version>0.9.1</version>
         </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.9.2</version>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <plugin>
+<!--            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
@@ -81,7 +91,7 @@
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>8.3.0</version>
-            </plugin>
+            </plugin>-->
         </plugins>
     </build>
 

@@ -17,6 +17,7 @@ public class ProductExpanded extends ProductDto {
                 .name(product.getName())
                 .image(product.getImage())
                 .price(product.getPrice())
+                .category(product.getCategory())
                 .description(product.getDescription())
                 .build();
     }
@@ -26,6 +27,7 @@ public class ProductExpanded extends ProductDto {
                 .name(product.getName())
                 .image(product.getImage())
                 .price(product.getPrice())
+                .category(product.getCategory())
                 .description(product.getDescription())
                 .build();
     }

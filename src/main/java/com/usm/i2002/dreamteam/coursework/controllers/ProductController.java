@@ -1,5 +1,6 @@
 package com.usm.i2002.dreamteam.coursework.controllers;
 
+import com.usm.i2002.dreamteam.coursework.entities.Category;
 import com.usm.i2002.dreamteam.coursework.entities.DTOs.products.ProductDto;
 import com.usm.i2002.dreamteam.coursework.entities.DTOs.products.ProductExpanded;
 import com.usm.i2002.dreamteam.coursework.services.ProductService;
@@ -9,6 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/products")
@@ -23,8 +28,7 @@ public class ProductController {
             final @RequestParam(defaultValue = "10") Integer pageSize,
             final @RequestParam(defaultValue = "name") String sortBy) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(productService.getAll(pageNumber, pageSize, sortBy)
-                        .map(ProductDto::of));
+                .body(productService.getAll(pageNumber, pageSize, sortBy).map(ProductDto::of));
     }
 
     @GetMapping("/search")
@@ -32,8 +36,7 @@ public class ProductController {
                                                          final @RequestParam(defaultValue = "0") Integer pageNumber,
                                                          final @RequestParam(defaultValue = "10") Integer pageSize) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(productService.searchByName(name, pageNumber, pageSize)
-                        .map(ProductExpanded::of));
+                .body(productService.searchByName(name, pageNumber, pageSize).map(ProductExpanded::of));
     }
 
     @PostMapping("/create")
@@ -41,6 +44,12 @@ public class ProductController {
     public ResponseEntity<ProductDto> addProduct(final @RequestBody ProductExpanded product) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ProductExpanded.of(productService.addProduct(ProductExpanded.to(product))));
+    }
+
+    @PostMapping("/test/results")
+    public ResponseEntity<List<ProductDto>> getGiftsByTestResults(final @RequestBody Map<Category, Integer> testResults) {
+        return ResponseEntity.status(HttpStatus.ACCEPTED)
+                .body(productService.getByTestResults(testResults).stream().map(ProductDto::of).collect(Collectors.toList()));
     }
 
 }
