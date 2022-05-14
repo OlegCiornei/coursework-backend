@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Getter
@@ -14,7 +15,7 @@ import java.util.Objects;
 @Entity
 @Builder
 @Table(name = "t_users")
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

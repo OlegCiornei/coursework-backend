@@ -23,6 +23,11 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
     @Override
+    public Product getByName(final String name) {
+        return productRepository.findByNameIgnoreCase(name).orElseThrow(() -> new IllegalArgumentException("No such product"));
+    }
+
+    @Override
     public Page<Product> getAll(final Integer pageNumber, final Integer pageSize, final String sortBy) {
         Pageable page = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
         return productRepository.findAll(page);

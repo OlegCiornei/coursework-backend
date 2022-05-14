@@ -9,6 +9,8 @@ import java.util.Map;
 
 public interface ProductService {
 
+    Product getByName(final String name);
+
     Page<Product> getAll(final Integer pageNumber, final Integer pageSize, final String sortBy);
 
     Page<Product> searchByName(final String name, final Integer pageNumber, final Integer pageSize);

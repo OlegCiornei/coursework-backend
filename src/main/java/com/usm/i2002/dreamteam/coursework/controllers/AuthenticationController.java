@@ -5,6 +5,8 @@ import com.usm.i2002.dreamteam.coursework.entities.DTOs.authentication.Authentic
 import com.usm.i2002.dreamteam.coursework.entities.DTOs.registration.RegistrationRequest;
 import com.usm.i2002.dreamteam.coursework.entities.User;
 import com.usm.i2002.dreamteam.coursework.security.JwtTokenProvider;
+import com.usm.i2002.dreamteam.coursework.services.CartService;
+import com.usm.i2002.dreamteam.coursework.services.ProductService;
 import com.usm.i2002.dreamteam.coursework.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,6 +30,8 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthenticationController {
 
     private final UserService userService;
+    private final CartService cartService;
+    private final ProductService productService;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
 
@@ -45,7 +49,7 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(final @RequestBody RegistrationRequest request) {
-        userService.addUser(request);
+        final String userEmail = userService.addUser(request).getEmail();
 
         final AuthenticationRequest authenticationRequest = new AuthenticationRequest(request.getEmail(), request.getPassword());
 
