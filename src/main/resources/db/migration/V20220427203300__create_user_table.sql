@@ -1,6 +1,6 @@
 CREATE TABLE t_users
 (
-    id       SERIAL not null,
+    id       SERIAL primary key,
     email    varchar(255) default NULL,
     password TEXT         default NULL,
     role     varchar(20)  default 'USER',

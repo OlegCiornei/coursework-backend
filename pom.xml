@@ -15,10 +15,6 @@
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>11</java.version>
-        <flyway.user>amogus</flyway.user>
-        <flyway.password>aboba</flyway.password>
-        <flyway.driver>org.postgresql.Driver</flyway.driver>
-        <flyway.url>jdbc:postgresql://localhost:5432/postgres</flyway.url>
     </properties>
     <dependencies>
         <dependency>
@@ -68,6 +64,11 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>2.9.2</version>
         </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -80,9 +81,6 @@
                         <exclude>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <url>${flyway.url}</url>
-                            <user>${flyway.user}</user>
-                            <password>${flyway.password}</password>
                         </exclude>
                     </excludes>
                 </configuration>

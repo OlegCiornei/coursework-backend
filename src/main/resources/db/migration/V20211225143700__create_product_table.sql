@@ -1,6 +1,6 @@
 create table t_products
 (
-    id          SERIAL       not null,
+    id          SERIAL primary key,
     name        varchar(100) not null,
     description varchar(255) not null,
     image       varchar(500) not null,
