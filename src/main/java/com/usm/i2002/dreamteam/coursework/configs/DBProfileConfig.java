@@ -16,18 +16,12 @@ public class DBProfileConfig {
     @Bean
     @Profile("dev")
     public String devDatabaseConnection() {
-        System.out.println("Using dev profile");
-        System.out.println(driverClassName);
-        System.out.println(url);
         return "DB connection dev";
     }
 
     @Bean
     @Profile("local")
     public String localDatabaseConnection() {
-        System.out.println("Using dev profile");
-        System.out.println(driverClassName);
-        System.out.println(url);
         return "DB connection local";
     }
 }
