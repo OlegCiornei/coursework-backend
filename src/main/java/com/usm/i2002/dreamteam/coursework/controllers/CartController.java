@@ -32,8 +32,15 @@ public class CartController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('users:read')")
-    public ResponseEntity<CartResponse> addCart(final @RequestBody CartRequest cartRequest) {
+    public ResponseEntity<CartResponse> addCartItem(final @RequestBody CartRequest cartRequest) {
         final String email = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
-        return ResponseEntity.status(CREATED).body(of(cartService.addCart(cartRequest.to(email))));
+        return ResponseEntity.status(CREATED).body(of(cartService.addCartItem(cartRequest.to(email))));
+    }
+
+    @DeleteMapping
+    @PreAuthorize("hasAuthority('users:read')")
+    public ResponseEntity<CartResponse> deleteCartItem(final @RequestBody CartRequest cartRequest) {
+        final String email = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+        return ResponseEntity.ok(of(cartService.deleteCartItem(email, cartRequest.getProductName(), cartRequest.getAmount())));
     }
 }

@@ -25,7 +25,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Cart addCart(final Cart cart) {
+    public Cart addCartItem(final Cart cart) {
         if (cart.getAmount() < 1)
             throw new IllegalArgumentException("Illegal amount");
 
@@ -41,6 +41,27 @@ public class CartServiceImpl implements CartService {
                 cart.setUser(userService.getByEmail(cart.getUserEmail()));
                 return cartRepository.save(cart);
             }
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+    }
+
+    @Override
+    public Cart deleteCartItem(final String email, final String productName, final Long amount) {
+
+        final Cart cart = cartRepository.findByUserEmailIgnoreCaseAndProductNameIgnoreCase(email, productName)
+                .orElseThrow(() -> new IllegalArgumentException("User doesn't have this product"));
+
+        if (amount < 1 || amount > cart.getAmount())
+            throw new IllegalArgumentException("Illegal amount");
+
+        try {
+            cart.setAmount(cart.getAmount() - amount);
+            if (cart.getAmount() == 0) {
+                cartRepository.delete(cart);
+                return cart;
+            }
+            return cartRepository.save(cart);
         } catch (Exception e) {
             throw new IllegalArgumentException(e.getMessage());
         }
