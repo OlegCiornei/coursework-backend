@@ -38,5 +38,4 @@ public class ErrorController {
                 .timestamp(LocalDateTime.now())
                 .build();
     }
-
 }

@@ -1,4 +1,4 @@
-package com.usm.i2002.dreamteam.coursework.configs;
+package com.usm.i2002.dreamteam.coursework.handlers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
@@ -19,28 +19,25 @@ import java.time.format.DateTimeFormatter;
 @Component
 public class LoggingAspect {
     private static final Logger LOGGER = LogManager.getLogger(LoggingAspect.class);
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BLACK = "\u001B[30m";
-    public static final String ANSI_RED = "\u001B[31m";
 
-
-    @Around("execution(* com.usm.i2002.dreamteam.coursework.controllers..*(..)))")
+    @Around("execution(* com.usm.i2002.dreamteam.coursework.controllers..*(..))))")
     public Object profileAllMethods(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        final ObjectMapper objectMapper = new ObjectMapper();//TODO adopt for errors
+        final ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.findAndRegisterModules();
         final MethodSignature methodSignature = (MethodSignature) proceedingJoinPoint.getSignature();
 
-        final String methodName = methodSignature.getName();
         final String requestURI = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getRequestURI();
         final String arguments = objectMapper.writeValueAsString(proceedingJoinPoint.getArgs());
 
-        LOGGER.info("[ " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + " ]  REQUEST HANDLED FOR " +
-                ANSI_RED + "/" + methodName + ANSI_RESET + " on " + requestURI + " with request parameters : " + arguments);
+        if (!methodSignature.getName().equals("exception"))
+            LOGGER.info("[ " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + " ]  REQUEST HANDLED ON " +
+                    requestURI + " WITH REQUEST PARAMETERS : " + arguments);
 
         final ResponseEntity result = (ResponseEntity) proceedingJoinPoint.proceed();
 
         LOGGER.info("[ " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + " ]  " +
                 result.getStatusCode() + " " + objectMapper.writeValueAsString(result.getBody()) +
-                " for " + ANSI_RED + "/" + methodName + ANSI_RESET + " on " + requestURI);
+                " ON " + requestURI);
 
         return result;
     }
