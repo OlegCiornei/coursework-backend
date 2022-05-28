@@ -7,6 +7,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -15,8 +16,11 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import static java.util.Objects.isNull;
+
 @Aspect
 @Component
+@SuppressWarnings("rawtypes")
 public class LoggingAspect {
     private static final Logger LOGGER = LogManager.getLogger(LoggingAspect.class);
 
@@ -29,9 +33,13 @@ public class LoggingAspect {
         final String requestURI = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getRequestURI();
         final String arguments = objectMapper.writeValueAsString(proceedingJoinPoint.getArgs());
 
-        if (!methodSignature.getName().equals("exception"))
+        if (!methodSignature.getName().equals("exception")) {
+            final String authorization = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getHeader(HttpHeaders.AUTHORIZATION);
+            final String header = isNull(authorization) ? "" : " WITH AUTHORIZATION : " + authorization;
+            final String requestParams = arguments.equals("[]") ? "" : " WITH REQUEST PARAMETERS : " + arguments;
             LOGGER.info("[ " + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) + " ]  REQUEST HANDLED ON " +
-                    requestURI + " WITH REQUEST PARAMETERS : " + arguments);
+                    requestURI + header + requestParams);
+        }
 
         final ResponseEntity result = (ResponseEntity) proceedingJoinPoint.proceed();
 

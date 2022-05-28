@@ -1,5 +1,6 @@
 package com.usm.i2002.dreamteam.coursework.configs;
 
+import com.usm.i2002.dreamteam.coursework.handlers.FilterChainExceptionHandler;
 import com.usm.i2002.dreamteam.coursework.security.JwtConfigurer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -21,10 +23,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtConfigurer jwtConfigurer;
 
+    private final FilterChainExceptionHandler filterChainExceptionHandler;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+                .addFilterBefore(filterChainExceptionHandler, LogoutFilter.class)
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
