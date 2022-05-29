@@ -59,8 +59,9 @@ public class AuthenticationController {
     }
 
     @PostMapping("/logout")
-    public void logout(final HttpServletRequest request, final HttpServletResponse response) {
+    public ResponseEntity<String> logout(final HttpServletRequest request, final HttpServletResponse response) {
         SecurityContextLogoutHandler securityContextLogoutHandler = new SecurityContextLogoutHandler();
         securityContextLogoutHandler.logout(request, response, null);
+        return ResponseEntity.ok("Logged out");
     }
 }
