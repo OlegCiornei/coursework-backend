@@ -3,6 +3,7 @@ package com.usm.i2002.dreamteam.coursework.controllers;
 import com.usm.i2002.dreamteam.coursework.entities.DTOs.carts.CartRequest;
 import com.usm.i2002.dreamteam.coursework.entities.DTOs.carts.CartResponse;
 import com.usm.i2002.dreamteam.coursework.services.CartService;
+import io.swagger.annotations.ApiImplicitParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,6 +26,7 @@ public class CartController {
 
     @GetMapping
     @PreAuthorize("hasAuthority('users:read')")
+    @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, allowEmptyValue = false, paramType = "header", dataTypeClass = String.class)
     public ResponseEntity<List<CartResponse>> getCart() {
         final String email = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
         return ResponseEntity.ok(cartService.getCart(email).stream().map(CartResponse::of).collect(toList()));
@@ -32,6 +34,7 @@ public class CartController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('users:read')")
+    @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, allowEmptyValue = false, paramType = "header", dataTypeClass = String.class)
     public ResponseEntity<CartResponse> addCartItem(final @RequestBody CartRequest cartRequest) {
         final String email = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
         return ResponseEntity.status(CREATED).body(of(cartService.addCartItem(cartRequest.to(email))));
@@ -39,6 +42,7 @@ public class CartController {
 
     @DeleteMapping
     @PreAuthorize("hasAuthority('users:read')")
+    @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, allowEmptyValue = false, paramType = "header", dataTypeClass = String.class)
     public ResponseEntity<CartResponse> deleteCartItem(final @RequestBody CartRequest cartRequest) {
         final String email = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
         return ResponseEntity.ok(of(cartService.deleteCartItem(email, cartRequest.getProductName(), cartRequest.getAmount())));

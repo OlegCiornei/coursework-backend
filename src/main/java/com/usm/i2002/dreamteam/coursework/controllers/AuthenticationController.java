@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static java.util.Objects.nonNull;
+
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -41,6 +43,10 @@ public class AuthenticationController {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
             final User user = userService.getByEmail(request.getEmail());
             final String token = jwtTokenProvider.createToken(request.getEmail(), user.getRole().name());
+
+            if (nonNull(request.getCart()))
+                request.getCart().stream().map(c -> c.to(request.getEmail())).forEach(cartService::addCartItem);
+
             return ResponseEntity.ok(AuthenticationResponse.builder().email(request.getEmail()).token(token).build());
         } catch (AuthenticationException e) {
             throw new BadCredentialsException("Invalid email/password combination");
@@ -51,7 +57,7 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> register(final @RequestBody RegistrationRequest request) {
         final String userEmail = userService.addUser(request).getEmail();
 
-        final AuthenticationRequest authenticationRequest = new AuthenticationRequest(request.getEmail(), request.getPassword());
+        final AuthenticationRequest authenticationRequest = new AuthenticationRequest(request.getEmail(), request.getPassword(), request.getCart());
 
         ResponseEntity<AuthenticationResponse> response = authenticate(authenticationRequest);
 

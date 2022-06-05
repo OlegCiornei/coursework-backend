@@ -14,9 +14,12 @@ public class SwaggerConfig {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
+                .useDefaultResponseMessages(false)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.usm.i2002.dreamteam.coursework.controllers"))
                 .paths(PathSelectors.any())
-                .build();
+                .build()
+                .enableUrlTemplating(false)
+                .forCodeGeneration(true);
     }
 }

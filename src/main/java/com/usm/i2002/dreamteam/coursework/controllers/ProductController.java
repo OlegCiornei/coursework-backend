@@ -4,6 +4,7 @@ import com.usm.i2002.dreamteam.coursework.entities.Category;
 import com.usm.i2002.dreamteam.coursework.entities.DTOs.products.ProductDto;
 import com.usm.i2002.dreamteam.coursework.entities.DTOs.products.ProductExpanded;
 import com.usm.i2002.dreamteam.coursework.services.ProductService;
+import io.swagger.annotations.ApiImplicitParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -41,6 +42,7 @@ public class ProductController {
 
     @PostMapping("/create")
     @PreAuthorize("hasAuthority('users:write')")
+    @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, allowEmptyValue = false, paramType = "header", dataTypeClass = String.class)
     public ResponseEntity<ProductDto> addProduct(final @RequestBody ProductExpanded product) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ProductExpanded.of(productService.addProduct(ProductExpanded.to(product))));
