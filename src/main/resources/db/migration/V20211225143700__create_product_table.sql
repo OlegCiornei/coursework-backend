@@ -5,5 +5,7 @@ create table t_products
     description varchar(255) not null,
     image       varchar(500) not null,
     price       decimal      not null,
-    category    varchar(50)  not null
+    category    varchar(50)  not null,
+    gender      varchar(20)  not null,
+    agecategory varchar(20)  not null
 );

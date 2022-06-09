@@ -40,6 +40,14 @@ public class Product implements Serializable {
     @Enumerated(value = EnumType.STRING)
     private Category category;
 
+    @Column(name = "gender")
+    @Enumerated(value = EnumType.STRING)
+    private Gender gender;
+
+    @Column(name = "agecategory")
+    @Enumerated(value = EnumType.STRING)
+    private AgeCategory ageCategory;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -1,8 +1,8 @@
 package com.usm.i2002.dreamteam.coursework.controllers;
 
-import com.usm.i2002.dreamteam.coursework.entities.Category;
 import com.usm.i2002.dreamteam.coursework.entities.DTOs.products.ProductDto;
 import com.usm.i2002.dreamteam.coursework.entities.DTOs.products.ProductExpanded;
+import com.usm.i2002.dreamteam.coursework.entities.TestResult;
 import com.usm.i2002.dreamteam.coursework.services.ProductService;
 import io.swagger.annotations.ApiImplicitParam;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -49,9 +48,9 @@ public class ProductController {
     }
 
     @PostMapping("/test/results")
-    public ResponseEntity<List<ProductDto>> getGiftsByTestResults(final @RequestBody Map<Category, Integer> testResults) {
+    public ResponseEntity<List<ProductDto>> getGiftsByTestResults(final @RequestBody TestResult testResult) {
         return ResponseEntity.status(HttpStatus.ACCEPTED)
-                .body(productService.getByTestResults(testResults).stream().map(ProductDto::of).collect(Collectors.toList()));
+                .body(productService.getByTestResults(testResult).stream().map(ProductDto::of).collect(Collectors.toList()));
     }
 
 }

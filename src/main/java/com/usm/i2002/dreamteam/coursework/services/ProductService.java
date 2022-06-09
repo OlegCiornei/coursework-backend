@@ -1,11 +1,10 @@
 package com.usm.i2002.dreamteam.coursework.services;
 
-import com.usm.i2002.dreamteam.coursework.entities.Category;
 import com.usm.i2002.dreamteam.coursework.entities.Product;
+import com.usm.i2002.dreamteam.coursework.entities.TestResult;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
-import java.util.Map;
 
 public interface ProductService {
 
@@ -17,5 +16,5 @@ public interface ProductService {
 
     Product addProduct(final Product product);
 
-    List<Product> getByTestResults(final Map<Category, Integer> testResults);
+    List<Product> getByTestResults(final TestResult testResult);
 }

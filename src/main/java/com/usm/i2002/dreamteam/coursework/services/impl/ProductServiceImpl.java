@@ -1,7 +1,7 @@
 package com.usm.i2002.dreamteam.coursework.services.impl;
 
-import com.usm.i2002.dreamteam.coursework.entities.Category;
 import com.usm.i2002.dreamteam.coursework.entities.Product;
+import com.usm.i2002.dreamteam.coursework.entities.TestResult;
 import com.usm.i2002.dreamteam.coursework.exceptions.NoSuchProductException;
 import com.usm.i2002.dreamteam.coursework.repositories.ProductRepository;
 import com.usm.i2002.dreamteam.coursework.services.ProductService;
@@ -14,7 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
+import static com.usm.i2002.dreamteam.coursework.entities.AgeCategory.getAgeCategory;
 
 @Service
 @RequiredArgsConstructor
@@ -50,12 +51,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getByTestResults(final Map<Category, Integer> testResults) {
-        if (testResults.values().stream().anyMatch(value -> value < 0))
+    public List<Product> getByTestResults(final TestResult testResult) {
+        if (testResult.getTestResults().values().stream().anyMatch(value -> value < 0))
             throw new IllegalArgumentException("Negative amount of gifts");
 
         List<Product> gifts = new ArrayList<>();
-        testResults.forEach((key, value) -> gifts.addAll(productRepository.findProductsByTestResults(key.name(), value)));
+        testResult.getTestResults().forEach((key, value) -> gifts.addAll(productRepository.findProductsByTestResults(key.name(), testResult.getGender().name(), getAgeCategory(testResult.getAge()).name(), value)));
 
         return gifts;
     }

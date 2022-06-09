@@ -1,7 +1,7 @@
 # coursework-backend
 
-## template for flyway migration
--Dflyway.url=jdbc:postgresql://localhost:5432/postgres -Dflyway.user=amogus -Dflyway.password=aboba flyway:repair
+## CLean migrate for flyway migration
+-Dflyway.url=jdbc:h2:C:/data/test -Dflyway.user=sa -Dflyway.password=password flyway:clean flyway:migrate
 
 ## swagger ui
 http://localhost:8080/api/swagger-ui.html#
