@@ -17,5 +17,4 @@ public class CartRequest {
                 .amount(amount)
                 .build();
     }
-
 }

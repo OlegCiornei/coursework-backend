@@ -37,6 +37,12 @@ public class ErrorController {
                 .body(fillErrorData(e.getLocalizedMessage(), HttpStatus.BAD_REQUEST));
     }
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorData> exception(final Exception e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(fillErrorData(e.getLocalizedMessage(), HttpStatus.BAD_REQUEST));
+    }
+
     private ErrorData fillErrorData(final String message, final HttpStatus status) {
         return ErrorData.builder()
                 .message(message)

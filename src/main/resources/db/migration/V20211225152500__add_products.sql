@@ -96,4 +96,4 @@ values ('Romance books', 'The romances include love and betrayal, hope and faith
         250, 'ART', 'FEMALE', 'TEEN');
 
 insert into t_products(name, description, image, price, category, gender, ageCategory)
-values ('Name5', 'Description', 'image', 15.125, 'HOME_DECOR', 'MALE', 'TEEN');
+values ('Name5', 'Description', 'image', 15.125, 'ART', 'MALE', 'TEEN');
