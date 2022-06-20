@@ -39,9 +39,17 @@ public class ProductController {
                 .body(productService.searchByName(name, pageNumber, pageSize).map(ProductExpanded::of));
     }
 
+    @GetMapping("/category")
+    public ResponseEntity<Page<ProductDto>> searchByCategory(final @RequestParam String category,
+                                                             final @RequestParam(defaultValue = "0") Integer pageNumber,
+                                                             final @RequestParam(defaultValue = "10") Integer pageSize) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(productService.searchByCategory(category, pageNumber, pageSize).map(ProductExpanded::of));
+    }
+
     @PostMapping("/create")
     @PreAuthorize("hasAuthority('users:write')")
-    @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, allowEmptyValue = false, paramType = "header", dataTypeClass = String.class)
+    @ApiImplicitParam(name = "Authorization", value = "Access Token", required = true, paramType = "header", dataTypeClass = String.class)
     public ResponseEntity<ProductDto> addProduct(final @RequestBody ProductExpanded product) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ProductExpanded.of(productService.addProduct(ProductExpanded.to(product))));

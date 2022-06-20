@@ -1,5 +1,6 @@
 package com.usm.i2002.dreamteam.coursework.services.impl;
 
+import com.usm.i2002.dreamteam.coursework.entities.Category;
 import com.usm.i2002.dreamteam.coursework.entities.Product;
 import com.usm.i2002.dreamteam.coursework.entities.TestResult;
 import com.usm.i2002.dreamteam.coursework.exceptions.NoSuchProductException;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static com.usm.i2002.dreamteam.coursework.entities.AgeCategory.getAgeCategory;
 
@@ -59,5 +61,23 @@ public class ProductServiceImpl implements ProductService {
         testResult.getTestResults().forEach((key, value) -> gifts.addAll(productRepository.findProductsByTestResults(key.name(), testResult.getGender().name(), getAgeCategory(testResult.getAge()).name(), value)));
 
         return gifts;
+    }
+
+    @Override
+    public Page<Product> searchByCategory(final String category, final Integer pageNumber, final Integer pageSize) {
+        Pageable page = PageRequest.of(pageNumber, pageSize, Sort.by("name"));
+        final Category actualCategory;
+        try {
+            actualCategory = Category.valueOf(category.toUpperCase(Locale.ROOT));
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Illegal category");
+        }
+
+        Page<Product> foundProducts = productRepository.findByCategory(actualCategory, page);
+
+        if (foundProducts.isEmpty())
+            throw new NoSuchProductException("No such product");
+
+        return foundProducts;
     }
 }

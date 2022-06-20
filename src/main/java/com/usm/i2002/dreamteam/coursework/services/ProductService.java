@@ -17,4 +17,6 @@ public interface ProductService {
     Product addProduct(final Product product);
 
     List<Product> getByTestResults(final TestResult testResult);
+
+    Page<Product> searchByCategory(final String category, final Integer pageNumber, final Integer pageSize);
 }
